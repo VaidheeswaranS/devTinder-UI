@@ -12,7 +12,8 @@ const EditProfile = ({ data }) => {
   const [gender, setGender] = useState(data.gender);
   const [about, setAbout] = useState(data.about);
   const [photoUrl, setPhotoUrl] = useState(data.photoUrl);
-  const [displayMessage, setDisplayMessage] = useState(null);
+  const [error, setError] = useState(null);
+  const [showToast, setShowToast] = useState(false);
   const dispatch = useDispatch();
 
   const handleSaveProfile = async () => {
@@ -35,10 +36,12 @@ const EditProfile = ({ data }) => {
 
       // updating the user slice in redux store with new data
       dispatch(addUser(res?.data?.data));
-      setDisplayMessage("Profile updated successfully !!");
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
     } catch (err) {
-      // setError(err?.response?.data || "Something went wrong");
-      setDisplayMessage(err?.response?.data || "Something went wrong");
+      setError(err?.response?.data || "Something went wrong");
       console.error(err);
     }
   };
@@ -118,23 +121,17 @@ const EditProfile = ({ data }) => {
             <div className="label">
               <span className="label-text mb-1">About</span>
             </div>
-            <input
-              type="text"
-              value={about}
-              className="input input-bordered w-full max-w-xs mb-3 px-3"
-              onChange={(event) => setAbout(event.target.value)}
-            />
+            <fieldset className="fieldset">
+              <textarea
+                className="textarea h-24 px-3 py-3 textarea-md"
+                onChange={(event) => setAbout(event.target.value)}
+              >
+                {about}
+              </textarea>
+            </fieldset>
           </label>
 
-          {displayMessage === "Profile updated successfully !!" ? (
-            <>
-              <div className="text-green-500">{displayMessage}</div>
-            </>
-          ) : (
-            <>
-              <div className="text-red-500">{displayMessage}</div>
-            </>
-          )}
+          <div className="text-red-500">{error}</div>
 
           <div className="card-actions justify-center m-2">
             <button
@@ -154,6 +151,13 @@ const EditProfile = ({ data }) => {
           />
         </div>
       </div>
+      {showToast && (
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-success">
+            <span>Profile updated successfully !!</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
