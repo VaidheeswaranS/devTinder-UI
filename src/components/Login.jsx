@@ -24,7 +24,7 @@ const Login = () => {
       // sending the userData to the redux store
       dispatch(addUser(res.data));
 
-      // sending the user to the feed page
+      // sending the user to the feed page after he logged in
       navigate("/");
     } catch (err) {
       console.error(err);
