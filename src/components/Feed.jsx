@@ -33,7 +33,7 @@ const Feed = () => {
       //   <UserCard user={feedData[1]} />
       // </div>
 
-      <div className="flex flex-wrap my-16">
+      <div className="ml-5 flex flex-wrap my-16">
         {feedData.map((feed) => (
           <UserCard key={feed._id} user={feed} />
         ))}

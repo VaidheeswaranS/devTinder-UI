@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("donald.trump@gmail.com");
-  const [password, setPassword] = useState("Donald@12345");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,6 +48,11 @@ const Login = () => {
                 value={emailId}
                 className="input input-bordered w-full max-w-xs mb-3 px-3"
                 onChange={(e) => setEmailId(e.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    handleLogin();
+                  }
+                }}
               />
             </label>
             <label className="form-control w-full max-w-xs my-2">
@@ -59,6 +64,11 @@ const Login = () => {
                 value={password}
                 className="input input-bordered w-full max-w-xs mb-3 px-3"
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    handleLogin();
+                  }
+                }}
               />
             </label>
             <div className="text-red-500">{error}</div>
