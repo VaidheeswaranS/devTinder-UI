@@ -14,7 +14,6 @@ const Feed = () => {
       const feed = await axios.get(BASE_URL + "/user/feed", {
         withCredentials: true,
       });
-      console.log(feed.data);
 
       // setting up the redux store with feed data
       dispatch(addFeeds(feed.data));
@@ -29,15 +28,10 @@ const Feed = () => {
 
   return (
     feedData && (
-      // <div className="flex justify-center my-16">
-      //   <UserCard user={feedData[1]} />
-      // </div>
-
       <div className="ml-5 flex flex-wrap my-16">
         {feedData.map((feed) => (
           <UserCard key={feed._id} user={feed} />
         ))}
-        {/* <UserCard user={feedData[1]} /> */}
       </div>
     )
   );
