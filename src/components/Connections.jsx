@@ -4,7 +4,6 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionsSlice";
 import { Link } from "react-router-dom";
-import SecondaryUserCard from "./SecondaryUserCard";
 
 const Connections = () => {
   const connectionsData = useSelector((store) => store.connections);
@@ -50,12 +49,23 @@ const Connections = () => {
     return (
       <div className="ml-5 flex flex-wrap my-16">
         {connectionsData.map((feed) => {
-          const { firstName, lastName, age, gender, about, skills, photoUrl } =
-            feed;
+          const {
+            _id,
+            firstName,
+            lastName,
+            age,
+            gender,
+            about,
+            skills,
+            photoUrl,
+          } = feed;
           const genderLetter = gender === "male" ? "M" : "F";
 
           return (
-            <div className="relative w-80 h-[800px] bg-white rounded-2xl shadow-lg overflow-hidden mr-5 mb-5">
+            <div
+              key={_id}
+              className="relative w-80 h-[800px] bg-white rounded-2xl shadow-lg overflow-hidden mr-5 mb-5"
+            >
               <div className="h-2/4 overflow-hidden">
                 <img
                   src={photoUrl}

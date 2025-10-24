@@ -2,8 +2,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
-import { addConnectionRequest } from "../utils/connectionRequestsSlice";
-import UserCard from "./UserCard";
+import {
+  addConnectionRequest,
+  removeConnectionRequest,
+} from "../utils/connectionRequestsSlice";
 import { Link } from "react-router-dom";
 
 const ConnectionRequests = () => {
@@ -11,6 +13,21 @@ const ConnectionRequests = () => {
     (store) => store.connectionRequests
   );
   const dispatcher = useDispatch();
+
+  const handleReviewRequest = async (status, id) => {
+    try {
+      await axios.post(
+        BASE_URL + "/request/review/" + status + "/" + id,
+        {},
+        { withCredentials: true }
+      );
+
+      // once "accepted" or "rejected" dispatch an action to remove the request from the page
+      dispatcher(removeConnectionRequest(id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const getConnectionRequests = async () => {
     try {
@@ -60,10 +77,16 @@ const ConnectionRequests = () => {
             skills,
             photoUrl,
           } = request.fromUserId;
+
+          const requestId = request._id;
+
           const genderLetter = gender === "male" ? "M" : "F";
 
           return (
-            <div className="relative w-80 h-[800px] bg-white rounded-2xl shadow-lg overflow-hidden mr-5 mb-5">
+            <div
+              key={_id}
+              className="relative w-80 h-[800px] bg-white rounded-2xl shadow-lg overflow-hidden mr-5 mb-5"
+            >
               <div className="h-2/4 overflow-hidden">
                 <img
                   src={photoUrl}
@@ -110,38 +133,19 @@ const ConnectionRequests = () => {
                     )}
                   </div>
                 )}
-
                 <div className="flex justify-center space-x-6">
-                  <button className="w-14 h-14 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
-                    <svg
-                      className="w-7 h-7 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
+                  <button
+                    className="w-full h-14 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer"
+                    onClick={() => handleReviewRequest("rejected", requestId)}
+                  >
+                    Reject
                   </button>
 
-                  <button className="w-14 h-14 rounded-full bg-pink-500 hover:bg-pink-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
-                    <svg
-                      className="w-7 h-7 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M20 6L9 17l-5-5"
-                      />
-                    </svg>
+                  <button
+                    className="w-full h-14 rounded-full bg-pink-500 hover:bg-pink-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer"
+                    onClick={() => handleReviewRequest("accepted", requestId)}
+                  >
+                    Accept
                   </button>
                 </div>
               </div>

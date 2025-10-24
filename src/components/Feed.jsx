@@ -30,7 +30,7 @@ const Feed = () => {
     feedData && (
       <div className="ml-5 flex flex-wrap my-16">
         {feedData.map((feed) => (
-          <UserCard key={feed._id} user={feed} />
+          <UserCard key={feed._id} user={feed} showButtons={true} />
         ))}
       </div>
     )

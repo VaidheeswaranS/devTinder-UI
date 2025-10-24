@@ -3,7 +3,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import SecondaryUserCard from "./SecondaryUserCard";
+import UserCard from "./UserCard";
 
 const EditProfile = ({ data }) => {
   const [firstName, setFirstName] = useState(data.firstName);
@@ -151,8 +151,9 @@ const EditProfile = ({ data }) => {
             This is how your profile will look to others !!!
           </p>
           <div>
-            <SecondaryUserCard
+            <UserCard
               user={{ firstName, lastName, age, gender, about, photoUrl }}
+              showButtons={false}
             />
           </div>
         </div>

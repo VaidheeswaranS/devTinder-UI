@@ -1,6 +1,6 @@
 ﻿import React from "react";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, showButtons }) => {
   const { firstName, lastName, age, gender, about, skills, photoUrl } = user;
   const genderLetter = gender === "male" ? "M" : "F";
 
@@ -53,39 +53,17 @@ const UserCard = ({ user }) => {
           </div>
         )}
 
-        <div className="flex justify-center space-x-6">
-          <button className="w-14 h-14 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
-            <svg
-              className="w-7 h-7 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+        {showButtons && (
+          <div className="flex justify-center space-x-6">
+            <button className="w-full h-14 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
+              Ignore
+            </button>
 
-          <button className="w-14 h-14 rounded-full bg-pink-500 hover:bg-pink-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
-            <svg
-              className="w-7 h-7 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M20 6L9 17l-5-5"
-              />
-            </svg>
-          </button>
-        </div>
+            <button className="w-full h-14 rounded-full bg-pink-500 hover:bg-pink-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
+              Interested
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
