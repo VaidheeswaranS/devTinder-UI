@@ -16,6 +16,7 @@ const ConnectionRequests = () => {
 
   const handleReviewRequest = async (status, id) => {
     try {
+      // sending the "accepted" or "rejected" request to the backend
       await axios.post(
         BASE_URL + "/request/review/" + status + "/" + id,
         {},

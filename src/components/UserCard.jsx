@@ -1,8 +1,26 @@
-﻿import React from "react";
+﻿import axios from "axios";
+import React from "react";
+import { BASE_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { removeUserFromFeed } from "../utils/feedSlice";
 
 const UserCard = ({ user, showButtons }) => {
-  const { firstName, lastName, age, gender, about, skills, photoUrl } = user;
+  const dispatcher = useDispatch();
+  const { _id, firstName, lastName, age, gender, about, skills, photoUrl } =
+    user;
   const genderLetter = gender === "male" ? "M" : "F";
+
+  const handleSendRequest = async (status, id) => {
+    // sending the "interested" or "ignored" request to the backend
+    await axios.post(
+      BASE_URL + "/request/send/" + status + "/" + id,
+      {},
+      { withCredentials: true }
+    );
+
+    // once "interested" or "ignored" dispatching an action to remove the profile from the feed page
+    dispatcher(removeUserFromFeed(id));
+  };
 
   return (
     <div className="relative w-80 h-[800px] bg-white rounded-2xl shadow-lg overflow-hidden mr-5 mb-5">
@@ -55,11 +73,21 @@ const UserCard = ({ user, showButtons }) => {
 
         {showButtons && (
           <div className="flex justify-center space-x-6">
-            <button className="w-full h-14 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
+            <button
+              className="w-full h-14 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                handleSendRequest("ignored", _id);
+              }}
+            >
               Ignore
             </button>
 
-            <button className="w-full h-14 rounded-full bg-pink-500 hover:bg-pink-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
+            <button
+              className="w-full h-14 rounded-full bg-pink-500 hover:bg-pink-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer"
+              onClick={() => {
+                handleSendRequest("interested", _id);
+              }}
+            >
               Interested
             </button>
           </div>

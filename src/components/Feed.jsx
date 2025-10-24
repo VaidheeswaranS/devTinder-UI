@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addFeeds } from "../utils/feedSlice";
+import { addUsersToFeed } from "../utils/feedSlice";
 import UserCard from "./UserCard";
 
 const Feed = () => {
@@ -16,7 +16,7 @@ const Feed = () => {
       });
 
       // setting up the redux store with feed data
-      dispatch(addFeeds(feed.data));
+      dispatch(addUsersToFeed(feed.data));
     } catch (err) {
       console.error(err);
     }

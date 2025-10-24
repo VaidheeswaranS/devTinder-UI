@@ -9,7 +9,7 @@ const connectionRequestsSlice = createSlice({
     },
 
     removeConnectionRequest: (state, action) => {
-      // this is removing the request from the state if requestId from payload and requestId already in state are same
+      // this is removing the user profile from "requests" page and removing the requestId from the state if requestId from payload and requestId already in state are same
       const newState = state.filter((req) => req._id !== action.payload);
       return newState; // this will be the new state value for "connectionRequests"
     },
