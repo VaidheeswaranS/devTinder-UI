@@ -127,6 +127,7 @@ const EditProfile = ({ data }) => {
                 <textarea
                   className="textarea h-24 px-3 py-3 textarea-md"
                   onChange={(event) => setAbout(event.target.value)}
+                  value={about}
                 >
                   {about}
                 </textarea>

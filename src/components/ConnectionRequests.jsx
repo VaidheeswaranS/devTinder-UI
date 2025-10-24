@@ -1,39 +1,39 @@
 ﻿import axios from "axios";
 import React, { useEffect } from "react";
-import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addConnections } from "../utils/connectionsSlice";
+import { BASE_URL } from "../utils/constants";
+import { addConnectionRequest } from "../utils/connectionRequestsSlice";
+import UserCard from "./UserCard";
 import { Link } from "react-router-dom";
-import SecondaryUserCard from "./SecondaryUserCard";
 
-const Connections = () => {
-  const connectionsData = useSelector((store) => store.connections);
-  const dispatch = useDispatch();
+const ConnectionRequests = () => {
+  const connectionRequestsData = useSelector(
+    (store) => store.connectionRequests
+  );
+  const dispatcher = useDispatch();
 
-  const fetchConnections = async () => {
+  const getConnectionRequests = async () => {
     try {
-      // getting the connections data from the DB
-      const res = await axios.get(BASE_URL + "/user/connections", {
+      // sending the request to the backend
+      const res = await axios.get(BASE_URL + "/user/requests/received", {
         withCredentials: true,
       });
 
-      //updating the connections data in the redux store
-      dispatch(addConnections(res?.data?.data));
+      // adding the request sent data to the redux store
+      dispatcher(addConnectionRequest(res.data.data));
     } catch (err) {
       console.error(err);
     }
   };
 
   useEffect(() => {
-    connectionsData.length === 0 && fetchConnections();
+    connectionRequestsData.length === 0 && getConnectionRequests();
   }, []);
 
-  if (connectionsData.length === 0) {
+  if (connectionRequestsData.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
-        <h2 className="text-2xl font-bold text-white mb-4">
-          Time to light up your profile!
-        </h2>
+        <h2 className="text-2xl font-bold text-white mb-4">No new requests!</h2>
         <p className="text-base text-white leading-relaxed">
           A great connection starts with a great profile.{" "}
           <Link
@@ -49,9 +49,17 @@ const Connections = () => {
   } else {
     return (
       <div className="ml-5 flex flex-wrap my-16">
-        {connectionsData.map((feed) => {
-          const { firstName, lastName, age, gender, about, skills, photoUrl } =
-            feed;
+        {connectionRequestsData.map((request) => {
+          const {
+            _id,
+            firstName,
+            lastName,
+            age,
+            gender,
+            about,
+            skills,
+            photoUrl,
+          } = request.fromUserId;
           const genderLetter = gender === "male" ? "M" : "F";
 
           return (
@@ -102,6 +110,40 @@ const Connections = () => {
                     )}
                   </div>
                 )}
+
+                <div className="flex justify-center space-x-6">
+                  <button className="w-14 h-14 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
+                    <svg
+                      className="w-7 h-7 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+
+                  <button className="w-14 h-14 rounded-full bg-pink-500 hover:bg-pink-600 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg transform hover:scale-105 cursor-pointer">
+                    <svg
+                      className="w-7 h-7 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M20 6L9 17l-5-5"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           );
@@ -111,4 +153,4 @@ const Connections = () => {
   }
 };
 
-export default Connections;
+export default ConnectionRequests;
