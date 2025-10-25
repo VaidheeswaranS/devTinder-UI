@@ -2,10 +2,11 @@
 
 const feedSlice = createSlice({
   name: "feed",
-  initialState: null,
+  initialState: [],
   reducers: {
     addUsersToFeed: (state, action) => {
-      return action.payload;
+      // Ensure we always return an array
+      return Array.isArray(action.payload) ? action.payload : [];
     },
     removeUserFromFeed: (state, action) => {
       // this is removing the user profile from "feed" page and removing the userId from the state if userId from payload and userId already in state are same
