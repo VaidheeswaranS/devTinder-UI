@@ -101,7 +101,9 @@ const EditProfile = ({ data }) => {
                 className="input input-bordered w-full max-w-xs mb-3 px-3"
                 onChange={(event) => setGender(event.target.value)}
               >
-                <option value={gender}>{gender}</option>
+                <option value={gender}>
+                  {gender !== "" ? gender : "Select your gender"}
+                </option>
                 <option value="male">male</option>
                 <option value="female">female</option>
               </select>

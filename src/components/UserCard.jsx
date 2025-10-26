@@ -8,7 +8,7 @@ const UserCard = ({ user, showButtons }) => {
   const dispatcher = useDispatch();
   const { _id, firstName, lastName, age, gender, about, skills, photoUrl } =
     user;
-  const genderLetter = gender === "male" ? "M" : "F";
+  const genderLetter = gender === "male" || gender === "" ? "M" : "F";
 
   const handleSendRequest = async (status, id) => {
     // sending the "interested" or "ignored" request to the backend

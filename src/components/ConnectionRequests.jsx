@@ -81,7 +81,7 @@ const ConnectionRequests = () => {
 
           const requestId = request._id;
 
-          const genderLetter = gender === "male" ? "M" : "F";
+          const genderLetter = gender === "male" || gender === "" ? "M" : "F";
 
           return (
             <div
