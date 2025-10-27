@@ -13,10 +13,16 @@ const connectionRequestsSlice = createSlice({
       const newState = state.filter((req) => req._id !== action.payload);
       return newState; // this will be the new state value for "connectionRequests"
     },
+    clearConnectionRequests: (state, action) => {
+      return [];
+    },
   },
 });
 
-export const { addConnectionRequest, removeConnectionRequest } =
-  connectionRequestsSlice.actions;
+export const {
+  addConnectionRequest,
+  removeConnectionRequest,
+  clearConnectionRequests,
+} = connectionRequestsSlice.actions;
 
 export default connectionRequestsSlice.reducer;

@@ -27,8 +27,6 @@ const EditProfile = ({ data }) => {
         photoUrl,
       };
 
-      console.log("Profile Data:", profileData);
-
       // this updates the profile with new data
       const res = await axios.patch(BASE_URL + "/profile/edit", profileData, {
         withCredentials: true,

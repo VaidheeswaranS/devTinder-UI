@@ -45,18 +45,6 @@ const Feed = () => {
       </div>
     );
   } else {
-    // Additional safety check before mapping
-    if (!Array.isArray(feedData)) {
-      console.error("feedData is not an array:", feedData);
-      return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            Error loading data
-          </h2>
-        </div>
-      );
-    }
-
     return (
       <div className="ml-5 flex flex-wrap my-16">
         {feedData.map((feed) => (

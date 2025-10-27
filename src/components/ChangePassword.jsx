@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { removeUser } from "../utils/userSlice";
+import { clearFeed } from "../utils/feedSlice";
+import { clearConnections } from "../utils/connectionsSlice";
+import { clearConnectionRequests } from "../utils/connectionRequestsSlice";
 import { useNavigate } from "react-router-dom";
 
 const ChangePassword = () => {
@@ -20,8 +23,11 @@ const ChangePassword = () => {
         { withCredentials: true }
       );
 
-      // clearing the user info in the redux store once password changed
+      // clearing all user-related data from the redux store once password changed
       dispatch(removeUser());
+      dispatch(clearFeed());
+      dispatch(clearConnections());
+      dispatch(clearConnectionRequests());
 
       // navigating the user back to login page
       navigate("/login");
