@@ -8,6 +8,7 @@ import Feed from "./Feed";
 import Connections from "./Connections";
 import ConnectionRequests from "./ConnectionRequests";
 import ChangePassword from "./ChangePassword";
+import Chat from "./Chat";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/connections" element={<Connections />} />
               <Route path="/requests" element={<ConnectionRequests />} />
               <Route path="/changePassword" element={<ChangePassword />} />
+              <Route path="/chat/:targetUserId" element={<Chat />} />
             </Route>
           </Routes>
         </BrowserRouter>

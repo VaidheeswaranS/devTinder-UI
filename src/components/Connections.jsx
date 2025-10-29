@@ -113,6 +113,9 @@ const Connections = () => {
                     )}
                   </div>
                 )}
+                <Link to={"/chat/" + _id}>
+                  <div className="btn btn-primary">Chat</div>
+                </Link>
               </div>
             </div>
           );
