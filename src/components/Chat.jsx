@@ -2,15 +2,38 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../utils/socket";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const Chat = () => {
+  const { targetUserId } = useParams();
+  const [newMessage, setNewMessage] = useState("");
+  const [messages, setMessages] = useState([]);
   const user = useSelector((store) => store.user);
   const userId = user?._id;
 
-  const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  const fetchChatMessages = async () => {
+    const chat = await axios.get(BASE_URL + "/chat/" + targetUserId, {
+      withCredentials: true,
+    });
 
-  const { targetUserId } = useParams();
+    console.log(chat?.data?.messages);
+
+    const chatMessages = chat?.data?.messages.map((msg) => {
+      return {
+        firstName: msg?.senderId?.firstName,
+        lastName: msg?.senderId?.lastName,
+        text: msg?.text,
+      };
+    });
+
+    // updating the local state variable
+    setMessages(chatMessages);
+  };
+
+  useEffect(() => {
+    fetchChatMessages();
+  }, []);
 
   useEffect(() => {
     if (!userId) {
@@ -25,11 +48,11 @@ const Chat = () => {
       targetUserId,
     });
 
-    socket.on("messageReceived", ({ firstName, text }) => {
+    socket.on("messageReceived", ({ firstName, lastName, text }) => {
       console.log(firstName + " : " + text);
 
       // updating the state value with the message received
-      setMessages((messages) => [...messages, { firstName, text }]);
+      setMessages((messages) => [...messages, { firstName, lastName, text }]);
     });
 
     // this function will be called when the component unmounts from the page. we are disconnecting the socket when Chat component unmounts
@@ -44,6 +67,7 @@ const Chat = () => {
     // sendMessage event is emitted
     socket.emit("sendMessage", {
       firstName: user.firstName,
+      lastName: user.lastName,
       userId,
       targetUserId,
       text: newMessage,
@@ -62,8 +86,15 @@ const Chat = () => {
         <div className="flex-1 overflow-scroll py-3 px-3 w-full">
           {messages.map((msg, index) => {
             return (
-              <div key={index} className="chat chat-start">
-                <div className="chat-header mb-1">{msg.firstName}</div>
+              <div
+                key={index}
+                className={
+                  user.firstName === msg.firstName ? "chat-end" : "chat-start"
+                }
+              >
+                <div className="chat-header mb-1">
+                  {msg.firstName + " " + msg.lastName}
+                </div>
                 <div className="chat-bubble">{msg.text}</div>
               </div>
             );
