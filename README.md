@@ -1,5 +1,16 @@
 # React + Vite
 
+Clone the repo and run the below command to install all the dependencies
+```bash
+  npm install
+```
+this needs the backend to run.. backend code in `https://github.com/VaidheeswaranS/devTinder`
+
+once the backed is up run the project using the command
+```bash
+npm run dev
+```
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
